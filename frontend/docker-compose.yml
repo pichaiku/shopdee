@@ -1,0 +1,38 @@
+services:
+  nextjs:
+    build: ./nextjs
+    image: ${DOCKER_USER:-local}/nextjs:latest
+    container_name: nextjs
+    restart: always     
+    expose:
+      - "3000"  
+    env_file:
+      - nextjs/.env        
+    depends_on:
+      - express
+      - flask
+
+  flutter:
+    build: ./flutter
+    image: ${DOCKER_USER:-local}/flutter:latest
+    container_name: flutter
+    restart: always
+    ports:
+      - "8080:80"
+    env_file:
+      - flutter/.env    
+    depends_on:
+      - express
+      - flask 
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - nextjs
+      - flutter

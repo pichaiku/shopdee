@@ -1,0 +1,44 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+scrape_configs:
+  # 1️. เก็บ metrics ของ Prometheus เอง
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  # 2️. เก็บ metrics จาก Node Exporter (เช่น CPU, RAM, Disk)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # 3️. ตรวจสอบเว็บเซิร์ฟเวอร์ / API / Frontend ด้วย Blackbox Exporter
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    # แต่ละ target มี label "service" ไว้ใช้ filter ใน Grafana เช่น probe_success{job="blackbox", service="express"}
+    static_configs:
+      - targets: ['http://nginx']                       # reverse proxy หรือ web root
+        labels: { service: 'nginx' }
+      - targets: ['http://nextjs:3000']                 # frontend (Next.js)
+        labels: { service: 'nextjs' }
+      - targets: ['http://express:4000/api/health']     # backend Express (ตรวจ DB ด้วย)
+        labels: { service: 'express' }
+      - targets: ['http://flask:5000/api/health']       # Flask API (ML)
+        labels: { service: 'flask' }
+      - targets: ['http://flutter:80']                  # Flutter web
+        labels: { service: 'flutter' }
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

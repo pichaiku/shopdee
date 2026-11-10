@@ -1,0 +1,44 @@
+services:
+  mysql:
+    build: ./mysql
+    image: ${DOCKER_USER:-local}/mysql:latest
+    container_name: mysql
+    restart: always
+    expose:
+      - "3306"  
+    env_file:
+      - mysql/.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  express:
+    build: ./express    
+    image: ${DOCKER_USER:-local}/express:latest
+    container_name: express
+    restart: always
+    expose:
+      - "4000"  
+    env_file:
+      - express/.env
+    depends_on:
+      - mysql  
+
+  flask:
+    build: ./flask    
+    image: ${DOCKER_USER:-local}/flask:latest
+    container_name: flask
+    restart: always
+    expose:
+      - "5000"
+    env_file:
+      - flask/.env   
+    depends_on:
+      - mysql    
+
+volumes:
+  mysql_data:

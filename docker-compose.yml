@@ -1,0 +1,8 @@
+include:
+  - ./backend/docker-compose.yml
+  - ./frontend/docker-compose.yml
+  - ./monitor/docker-compose.yml
+
+networks:
+  default:
+    name: shopdee_network

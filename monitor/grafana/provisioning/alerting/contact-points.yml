@@ -1,0 +1,33 @@
+# Contact point "shopdee-alerts": Gmail + LINE Messaging API
+# - Email uses Grafana SMTP (GF_SMTP_* in monitor/.env)
+# - LINE goes through the line-notifier relay (token is kept there, not in Grafana)
+# $ALERT_EMAIL_TO is read from the grafana container environment (monitor/.env)
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: shopdee-alerts
+    receivers:
+      - uid: shopdee-email
+        type: email
+        disableResolveMessage: false   # also notify when the service is back UP
+        settings:
+          addresses: $ALERT_EMAIL_TO   # separate multiple addresses with ;
+          singleEmail: true
+          subject: |
+            {{ if eq .Status "firing" }}🔴 [DOWN]{{ else }}🟢 [UP]{{ end }} Shopdee: {{ .CommonLabels.service }}
+          message: |
+            {{ range .Alerts }}{{ if eq .Status "firing" }}🔴 DOWN: {{ .Annotations.summary }}
+            {{ .Annotations.description }}
+            เริ่ม: {{ .StartsAt.Local.Format "2006-01-02 15:04:05" }}
+            {{ else }}🟢 UP: {{ .Labels.service }} กลับมาทำงานปกติแล้ว
+            ช่วงที่ล่ม: {{ .StartsAt.Local.Format "2006-01-02 15:04:05" }} - {{ .EndsAt.Local.Format "2006-01-02 15:04:05" }}
+            {{ end }}
+            {{ end }}
+
+      - uid: shopdee-line
+        type: webhook
+        disableResolveMessage: false
+        settings:
+          url: http://line-notifier:8080/grafana
+          httpMethod: POST

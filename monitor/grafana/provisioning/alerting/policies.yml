@@ -1,0 +1,11 @@
+# Route every alert to "shopdee-alerts" (Gmail + LINE)
+# Note: provisioning the policy tree replaces the whole tree that was set in the UI.
+apiVersion: 1
+
+policies:
+  - orgId: 1
+    receiver: shopdee-alerts
+    group_by: ['alertname', 'service']
+    group_wait: 10s        # first notification soon after the alert fires
+    group_interval: 1m     # how often to send changes (e.g. resolved) for the same group
+    repeat_interval: 4h    # remind again if it is still down

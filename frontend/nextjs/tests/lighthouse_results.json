@@ -1,0 +1,65 @@
+{
+  "NF-LHT-001": {
+    "score": 100,
+    "notes": "Score: 100 (LCP: 0.2 s, CLS: 0.059, TBT: 0 ms)",
+    "status": "Pass",
+    "url": "http://localhost/",
+    "fetchedAt": "2026-11-10T20:29:05.843Z"
+  },
+  "NF-LHT-002": {
+    "score": 96,
+    "notes": "Score: 96",
+    "status": "Pass",
+    "url": "http://localhost/",
+    "fetchedAt": "2026-11-10T20:29:25.954Z"
+  },
+  "NF-LHT-003": {
+    "score": 99,
+    "notes": "Score: 99 (LCP: 1.0 s, CLS: 0, TBT: 0 ms)",
+    "status": "Pass",
+    "url": "http://localhost/products",
+    "fetchedAt": "2026-11-10T20:29:39.042Z"
+  },
+  "NF-LHT-004": {
+    "score": 100,
+    "notes": "Score: 100",
+    "status": "Pass",
+    "url": "http://localhost/products/1",
+    "fetchedAt": "2026-11-10T20:29:55.155Z"
+  },
+  "NF-LHT-005": {
+    "score": 100,
+    "notes": "Score: 100 (LCP: 0.8 s, CLS: 0, TBT: 30 ms)",
+    "status": "Pass",
+    "url": "http://localhost/",
+    "fetchedAt": "2026-11-10T20:30:07.854Z"
+  },
+  "NF-LHT-006": {
+    "score": 100,
+    "notes": "Score: 100",
+    "status": "Pass",
+    "url": "http://localhost/login",
+    "fetchedAt": "2026-11-10T20:30:26.671Z"
+  },
+  "NF-PLT-001": {
+    "score": 100,
+    "notes": "Score: 100 (LCP: 0.2 s, CLS: 0, TBT: 0 ms)",
+    "status": "Pass",
+    "url": "http://localhost/profile",
+    "fetchedAt": "2026-11-10T20:30:41.291Z"
+  },
+  "NF-PLT-002": {
+    "score": 100,
+    "notes": "Score: 100",
+    "status": "Pass",
+    "url": "http://localhost/cart",
+    "fetchedAt": "2026-11-10T20:30:56.327Z"
+  },
+  "NF-PLT-003": {
+    "score": 100,
+    "notes": "Score: 100 (LCP: 0.2 s, CLS: 0, TBT: 0 ms)",
+    "status": "Pass",
+    "url": "http://localhost/orders",
+    "fetchedAt": "2026-11-10T20:31:10.307Z"
+  }
+}
